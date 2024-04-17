@@ -1,4 +1,4 @@
-﻿namespace Cells0
+﻿namespace Cells1
 {
     internal class Program
     {
@@ -43,7 +43,7 @@
 
             int sumOfParticles = 0;
 
-            for (int i = 0;i < N; i++)
+            for (int i = 0; i < N; i++)
             {
                 sumOfParticles += cells[i];
             }
@@ -60,7 +60,8 @@
 
             while (!stop)
             {
-                
+                lock (lockObject)
+                {
                     double m = rand.NextDouble();
 
                     if (m > p && currentId > 0)
@@ -75,7 +76,7 @@
                         currentId += 1;
                         cells[currentId] += 1;
                     }
-                
+                }
             }
 
         }
@@ -91,8 +92,9 @@
         }
 
         static private void PrintCrystall(object state)
-        {            
-            
+        {
+            lock (lockObject)
+            {
                 List<int> cells = (List<int>)state;
 
                 Console.Write("[");
@@ -104,7 +106,7 @@
                         Console.Write(cells[i] + ", ");
                 }
                 Console.WriteLine("] at time : " + DateTime.Now.ToLongTimeString());
-            
+            }
         }
 
         static void StopProgram(object state)
@@ -126,6 +128,5 @@
             }
             return parameters;
         }
-
     }
 }
